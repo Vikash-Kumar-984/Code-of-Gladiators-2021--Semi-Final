@@ -1,0 +1,19 @@
+import math
+def primefactors(N):
+   num=N
+   while(N % 2 ==0):
+       N=N//2
+       num +=N
+   for i in range(3,int(math.sqrt(N))+1,2:
+    while (N%i==0):
+       N=N//i
+       num+=N
+   if N>2:
+        num +=1
+   return num
+num2=int(input())
+l=list(map(int,input().split(" ")))
+op=0
+for d in l:
+   op += primefactors(d)
+print(op)
