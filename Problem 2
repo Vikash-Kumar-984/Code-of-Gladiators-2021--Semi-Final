@@ -1,0 +1,101 @@
+import java.util.*;
+import java.io.*;
+
+public class CandidateCode{
+	static class FastReader{
+		BufferedReader br;
+		StringTokenizer st;
+		
+		public FastReader() {
+			br=new BufferedReader(new InputStreamReader(System.in));
+		}
+		
+		String next() {
+			while(st==null || !st.hasMoreElements()) {
+				try {
+					st=new
+				StringTokenizer(br.readLine());
+				}
+				catch(IOException e) {
+					e.printStackTrace();
+				}
+			}
+			return st.nextToken();
+		}
+		int nextInt() {
+			return Integer.parseInt(next());
+		}
+		long nextLong() {
+			return Long.parseLong(next());
+		}
+		double nextDouble() {
+			return Double.parseDouble(next());
+		}
+		
+		String nextLine() {
+			String str="";
+		
+		try {
+			str=br.readLine();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+}
+
+static long mod=(long)(1e9+7);
+static FastReader sc=new FastReader();
+static PrintWriter out=new PrintWriter(System.out);
+public static void main(String[] args) {
+	int ttt=1;
+	z: for (int tc=1;tc<=ttt;++tc) {
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int r=sc.nextInt();
+		List<int[]>g[]=new ArrayList[n+1];
+		
+		for(int i=1;i<=n;++i) {
+			g[i]=new ArrayList<>();
+		}
+		for(int i=1;i<=r;++i) {
+			int u=sc.nextInt();
+			int v=sc.nextInt();
+			int c=sc.nextInt();
+			g[u].add(new int[] {v,c});
+			g[v].add(new int[] {u,c});
+		}
+		ArrayList<Integer>a=new ArrayList<>();
+		PriorityQueue<long[]>pq=new PriorityQueue<>(new Comparator<long[]>()
+				{
+			@Override
+			public int compare(long[]o1,long[]o2)
+			{
+				if (o1[1]<o2[1]) return -1;
+				return 1;
+			}
+				});
+		long dist[]=new long[n+1];
+		Arrays.fill(dist,Long.MAX_VALUE);
+		dist[1]=0;
+		long ans=Long.MAX_VALUE;
+		pq.add(new long[] {1,0});
+		
+		while(!pq.isEmpty()) {
+			long cur[]=pq.poll();
+			for(int b[]:g[(int)(cur[0])]) {
+				long cdist=Math.max(0,b[1]-cur[1]);
+				if(dist[b[0]] > cdist+cur[1]) {
+					dist[b[0]]=cdist+cur[1];
+					pq.add(new long[] {b[0],cdist + cur[1]});
+				}
+			}
+		}
+		if (dist[n]== Long.MAX_VALUE)
+			out.write("NOT POSSIBLE");
+		else out.write(dist[n]+ "\n");
+	}
+	out.close();
+}
+}
